@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Technology Through Cinema · The Pursuit of Happyness</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--ink:#15171a;--cream:#eeeae0;--lime:#c8f031;--sans:'Space Grotesk',Helvetica,sans-serif;--mono:'IBM Plex Mono',monospace;--bg:#15171a;--fg:#eeeae0;--word:#c8f031;--tag:#c8f031;--card:rgba(238,234,224,.08);--line:rgba(238,234,224,.28)}
+*{box-sizing:border-box;margin:0}
+body{background:#15171a;font-family:var(--sans);color:#eeeae0;overflow-x:hidden}
+body.lock{overflow:hidden}
+#space{height:700vh}
+#stage{position:fixed;inset:0;overflow:hidden;color:var(--fg);background:radial-gradient(70% 60% at 78% 24%,rgba(255,255,255,.07),transparent 70%),var(--bg)}
+#fx{position:absolute;inset:0;pointer-events:none}
+#bar{position:absolute;z-index:5;left:0;top:0;height:3px;width:100%;background:var(--word);transform-origin:0 0;transform:scaleX(0)}
+#tick{position:absolute;z-index:2;left:0;top:14px;width:100%;overflow:hidden;font:500 11px var(--mono);letter-spacing:.2em;opacity:.45;white-space:nowrap}
+#tick div{display:inline-block;animation:tk 38s linear infinite}
+@keyframes tk{to{transform:translateX(-50%)}}
+.word{position:absolute;z-index:1;right:4vw;top:9vh;font:700 clamp(56px,11.5vw,180px)/1 var(--sans);color:var(--word);letter-spacing:-.04em;white-space:nowrap;perspective:700px;pointer-events:none}
+.word .l{display:inline-block;transform-origin:50% 100%;animation:lin .9s cubic-bezier(.2,.9,.2,1) both;animation-delay:calc(var(--i)*45ms)}
+@keyframes lin{from{opacity:0;transform:rotateX(-95deg) translateY(50%)}to{opacity:1;transform:none}}
+.word.out{z-index:0}.word.out .l{animation:lout .55s cubic-bezier(.6,0,.9,.4) both;animation-delay:calc(var(--i)*22ms)}
+@keyframes lout{to{opacity:0;transform:translateY(-90%) rotateX(80deg)}}
+#objs{position:absolute;z-index:2;left:44vw;top:18vh;width:min(58vh,50vw);height:min(58vh,50vw);perspective:1200px;transform-style:preserve-3d}
+#ring{position:absolute;inset:-14%;width:128%;height:128%;color:var(--fg);opacity:.4;overflow:visible}
+.obj{position:absolute;inset:0;will-change:transform,opacity}
+.obj svg{width:100%;height:100%;overflow:visible;filter:drop-shadow(0 28px 26px rgba(0,0,0,.35));animation:bob 6s ease-in-out infinite}
+@keyframes bob{50%{transform:translateY(-12px) rotate(1.2deg)}}
+.era,.mode{opacity:0;transition:opacity .5s,transform .5s;transform:scale(.9);transform-origin:300px 300px}
+.era.on,.mode.on{opacity:1;transform:none}
+.era circle{animation:bl 1.5s infinite}.era circle:nth-of-type(2n){animation-delay:.6s}
+@keyframes bl{50%{opacity:.25}}
+.mode :is(rect,circle){transform-box:fill-box;transform-origin:center;transform:scale(.3);opacity:0;transition:transform .6s cubic-bezier(.3,1.6,.5,1),opacity .4s}
+.mode.on :is(rect,circle){transform:none;opacity:1}
+.flow path{stroke-dasharray:6 10;animation:fl 1s linear infinite}
+@keyframes fl{to{stroke-dashoffset:-16}}
+.lab{opacity:var(--lab,0);transition:opacity .45s}
+#card{position:absolute;z-index:3;left:4vw;top:14vh;width:min(450px,40vw);padding:28px 28px 22px;border-radius:20px;background:var(--card);border:1px solid var(--line);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px)}
+.w{display:inline-block;overflow:hidden;vertical-align:top;padding:0 .06em .14em 0}
+.ch{display:inline-block;transform:translateY(115%) rotate(7deg);opacity:0;animation:up .8s cubic-bezier(.2,.9,.2,1) forwards;animation-delay:calc(var(--i)*26ms)}
+@keyframes up{to{transform:none;opacity:1}}
+.bw{display:inline-block;opacity:0;filter:blur(6px);transform:translateY(10px);animation:bw .6s ease-out forwards;animation-delay:calc(var(--i)*22ms + .25s)}
+@keyframes bw{to{opacity:1;filter:none;transform:none}}
+.tag{font:500 12px var(--mono);letter-spacing:.16em;text-transform:uppercase;color:var(--tag);margin-bottom:14px}
+.tag .bw{animation-delay:calc(var(--i)*40ms)}
+#card h1{font:700 clamp(34px,4.2vw,56px)/1.02 var(--sans);letter-spacing:-.03em}
+#card h1 em{display:block;font-style:normal;font-weight:500;color:var(--tag)}
+#card p.txt{margin:16px 0 18px;font-size:clamp(14px,1.15vw,17px);line-height:1.55;opacity:.92}
+.pills{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:6px}
+.pill{font:500 13px var(--mono);color:var(--fg);background:transparent;border:1px solid var(--line);border-radius:99px;padding:9px 16px;cursor:pointer;transition:.25s;animation:rise .5s both;animation-delay:calc(.7s + var(--k)*.08s)}
+.pill:hover{transform:translateY(-2px);border-color:var(--fg)}
+.pill.on{background:var(--fg);color:var(--bg);border-color:var(--fg)}
+@keyframes rise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+.stat{display:flex;align-items:baseline;gap:12px;margin-top:18px;padding-top:16px;border-top:1px solid var(--line);animation:rise .6s .8s both}
+.stat b{font:700 32px var(--sans);display:inline-block}
+.stat span{font:500 12px var(--mono);letter-spacing:.14em;color:var(--tag)}
+.stat.flip b,.stat.flip span{animation:rise .45s both}
+#pager{position:absolute;z-index:3;left:50%;bottom:4vh;transform:translateX(-50%);padding:9px 18px;border-radius:99px;background:var(--card);border:1px solid var(--line);backdrop-filter:blur(10px);font:500 12px var(--mono);letter-spacing:.06em;white-space:nowrap}
+#hint{position:absolute;z-index:3;left:4vw;bottom:4vh;font:500 11px var(--mono);letter-spacing:.18em;display:flex;align-items:center;gap:10px;transition:opacity .4s}
+#hint i{width:16px;height:26px;border:1.5px solid var(--fg);border-radius:9px;position:relative}
+#hint i::after{content:"";position:absolute;left:5px;top:5px;width:3px;height:6px;border-radius:3px;background:var(--fg);animation:sc 1.4s infinite}
+@keyframes sc{50%{transform:translateY(7px);opacity:.3}}
+#dots{position:absolute;z-index:3;right:2vw;top:50%;transform:translateY(-50%);display:flex;flex-direction:column;gap:12px}
+#dots button{width:8px;height:8px;border-radius:50%;border:0;background:var(--fg);opacity:.35;cursor:pointer;padding:0;transition:.4s}
+#dots button.on{opacity:1;height:24px;border-radius:6px}
+#notes{position:absolute;z-index:6;left:50%;bottom:11vh;transform:translateX(-50%);width:min(720px,90vw);padding:18px 22px;border-radius:14px;background:rgba(21,23,26,.94);color:#eeeae0;border:1px solid rgba(200,240,49,.4);font-size:15px;line-height:1.6;display:none}
+#notes.show{display:block}
+#notes small{display:block;color:#c8f031;font-family:var(--mono);letter-spacing:.14em;margin-bottom:8px;font-size:11px}
+#nbtn{position:absolute;z-index:4;right:4vw;bottom:4vh;font:500 12px var(--mono);letter-spacing:.08em;color:var(--fg);background:transparent;border:1px solid var(--line);border-radius:99px;padding:8px 14px;cursor:pointer}
+#splash{position:fixed;inset:0;z-index:20;background:#15171a;display:grid;place-items:center;overflow:hidden;transition:transform 1s cubic-bezier(.7,0,.2,1)}
+#splash.go{transform:translateY(-100%)}
+#splash .blk{position:absolute;width:56px;height:34px;border-radius:6px;background:#c8f031;animation:blk 1.5s .3s cubic-bezier(.7,0,.2,1) forwards}
+@keyframes blk{0%,35%{transform:scale(1)}100%{transform:scale(45)}}
+#splash h2{position:relative;font:700 clamp(48px,12vw,190px)/1 var(--sans);color:#15171a;letter-spacing:-.05em}
+#splash .ch{animation-delay:calc(1.2s + var(--i)*50ms)}
+@media(max-width:800px){
+#card{left:5vw;width:90vw;top:7vh;padding:20px}
+#objs{left:18vw;top:49vh;width:64vw;height:64vw}
+.word{right:auto;left:5vw;top:42vh;font-size:15vw}
+#hint,#nbtn,#tick{display:none}
+#dots{right:1vw}
+}
+@media(max-height:620px) and (min-width:801px){#card{top:8vh;padding:18px}#card p.txt{margin:10px 0}}
+@media(prefers-reduced-motion:reduce){*{animation-duration:.01s!important;animation-delay:0s!important}}
+</style>
+</head>
+<body class="lock">
+<div id="space"></div>
+<div id="stage">
+  <canvas id="fx"></canvas>
+  <div id="bar"></div>
+  <div id="tick"></div>
+  <div id="word" class="word"></div>
+  <div id="objs"></div>
+  <div id="card"></div>
+  <div id="hint"><i></i>SCROLL TO DISCOVER</div>
+  <div id="pager"></div>
+  <div id="dots"></div>
+  <button id="nbtn" type="button">SPEAKER NOTES (N)</button>
+  <div id="notes"></div>
+</div>
+<div id="splash"><div class="blk"></div><h2></h2></div>
+<script>
+const $=s=>document.querySelector(s);
+const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v));
+const DK='#23262b',RIM='#c8f031';
+/* ---------- Content (edit the [brackets] before presenting) ---------- */
+const scenes=[
+{label:'Introduction',word:'MOVIE',h:'The Pursuit of',em:'Happyness.',
+ t:'This movie is called The Pursuit of Happyness. The director is Gabriele Muccino. The main actors are Will Smith and Jaden Smith.',
+ stat:['2006','YEAR RELEASED'],
+ n:'SPEAKER 1 · Hello everyone! We are [group names]. This movie is called The Pursuit of Happyness. The director is Gabriele Muccino and it came out in 2006. The main actors are Will Smith and his son, Jaden Smith. In the story, the main character sells a medical machine, so technology is part of the movie.'},
+{label:'Plot & characters',word:'STORY',h:'A father.',em:'A dream.',
+ t:'The story is about Chris Gardner, a salesman who sells portable medical scanners. His young son Christopher is always by his side. Chris loses almost everything, but he does not give up. What happens next? Watch it and see!',
+ stat:['2','MAIN CHARACTERS'],
+ n:'SPEAKER 2 · The main character is Chris Gardner. He sells a scanner, a machine that helps doctors, but it is not easy to sell. His son is Christopher. They go through hard days, but Chris keeps trying again and again. We will not tell the ending!'},
+{label:'Theme: hardware',word:'HARDWARE',h:'Hardware.',em:'Then and now.',
+ t:'Hardware is the physical part of technology. Choose an era to see how machines changed.',
+ pills:[['1940s','GIANT COMPUTERS'],['1970s','PERSONAL COMPUTERS'],['2007','SMARTPHONES'],['Today','TINY, FAST CHIPS']],
+ n:'SPEAKER 3 · The most important theme is technology. First, hardware, the physical parts. Long ago, computers were as big as a room. Later, we had computers for the desk. Then smartphones arrived. Today, chips are tiny and very fast.'},
+{label:'Inside a smartphone',word:'INSIDE',h:'Extraordinary.',em:'from within.',
+ t:'Open a smartphone and you find small parts: a screen, a chip, a battery and a camera. Each part has one job.',
+ stat:['4','PARTS TO DISCOVER'],
+ n:'SPEAKER 3 · Look inside a phone. The screen shows images, the chip is the brain, the battery gives energy and the camera takes photos. All the parts work together.'},
+{label:'Theme: software',word:'APPS + AI',h:'Software.',em:'Alive with ideas.',
+ t:'Software is the set of programs inside the machine. Choose one to explore.',
+ pills:[['Apps','MAPS · MESSAGES · MUSIC'],['AI','SOFTWARE THAT LEARNS']],
+ n:'SPEAKER 3 · Now software, the programs inside the machines. Apps help us every day: maps, messages, music. AI, or artificial intelligence, is software that learns from data. For example, a translator or a voice assistant.'},
+{label:'Message',word:'TOGETHER',h:'Technology changes.',em:'People keep going.',
+ t:'Hardware and software work together. We learned that new tools help us, but hope and effort matter most. Chris shows resilience, and technology keeps improving too.',
+ stat:['∞','RESILIENCE'],
+ n:'SPEAKER 3 · We learned that technology changes very fast, but people need hope and effort. Chris shows resilience, and that is the key message of the movie.'},
+{label:'Our opinion',word:'THANK YOU',h:'In our opinion,',em:'it is inspiring.',
+ t:'Our favorite scene: [scene]. It made us feel [emotion]. We recommend it because [reason].',
+ stat:['?','ANY QUESTIONS?'],
+ n:'SPEAKER 4 · In our opinion, this movie is inspiring. Our favorite scene is [scene]. It made us feel [emotion]. We recommend it because [reason]. Thank you! Do you have any questions?'}
+];
+const state={2:0,4:0};
+
+/* ---------- SVG art ---------- */
+const pins=(x,y,n,gap,vert)=>Array.from({length:n},(_,i)=>vert?`<rect x="${x}" y="${y+i*gap}" width="22" height="8" rx="3" fill="${RIM}"/>`:`<rect x="${x+i*gap}" y="${y}" width="8" height="22" rx="3" fill="${RIM}"/>`).join('');
+const stroke=`stroke="${RIM}" stroke-width="3" stroke-opacity=".85"`;
+const LAB={back:[300,430,'CASE'],battery:[300,370,'BATTERY'],board:[300,300,'BOARD'],chip:[300,215,'CHIP'],lens:[340,185,'CAMERA'],glass:[300,200,'SCREEN']};
+const lab=n=>{const l=LAB[n];return l?`<g class="lab"><rect x="${l[0]-54}" y="${l[1]-17}" width="108" height="34" rx="17" fill="#c8f031"/><text x="${l[0]}" y="${l[1]+6}" text-anchor="middle" font-family="IBM Plex Mono,monospace" font-weight="500" font-size="17" fill="#15171a">${l[2]}</text></g>`:''};
+const phoneParts=(extra)=>{
+ const P=[
+ ['back',-0,200,4,`<rect x="190" y="50" width="220" height="440" rx="30" fill="#14161a" ${stroke}/>`],
+ ['battery',170,150,-10,`<rect x="240" y="320" width="120" height="100" rx="10" fill="#3a3f45"/><rect x="252" y="334" width="60" height="72" rx="6" fill="#c8f031"/>`],
+ ['board',-190,40,8,`<rect x="210" y="110" width="180" height="320" rx="12" fill="#1c2024" ${stroke}/>`],
+ ['chip',160,-80,14,`<rect x="255" y="170" width="90" height="90" rx="8" fill="#0f1317" ${stroke}/><rect x="275" y="190" width="50" height="50" rx="4" fill="${RIM}" fill-opacity=".35"/>`],
+ ['lens',-170,-140,-8,`<circle cx="340" cy="135" r="30" fill="#0f1317" ${stroke}/><circle cx="340" cy="135" r="13" fill="${RIM}" fill-opacity=".5"/>`],
+ ['glass',0,-170,-5,`<rect x="190" y="50" width="220" height="440" rx="30" fill="#2b3138" fill-opacity=".55" ${stroke}/><rect x="270" y="62" width="60" height="9" rx="5" fill="#0b0d10"/>`]
+ ];
+ if(extra)P.push(['apps',120,-200,10,`<rect x="212" y="110" width="52" height="52" rx="14" fill="#eeeae0"/><rect x="274" y="110" width="52" height="52" rx="14" fill="#eeeae0"/><rect x="336" y="110" width="52" height="52" rx="14" fill="${RIM}"/><circle cx="300" cy="300" r="46" fill="none" stroke="${RIM}" stroke-width="4"/><path d="M300 270v60M270 300h60" stroke="#fff" stroke-width="4" stroke-linecap="round"/>`]);
+ return P.map((p,k)=>`<g class="part" data-dx="${p[1]}" data-dy="${p[2]}" data-r="${p[3]}" data-k="${k}">${p[4]}${extra?'':lab(p[0])}</g>`).join('');
+};
+const art=[
+// 0 clapperboard
+`<svg viewBox="0 0 600 600"><rect x="130" y="250" width="340" height="230" rx="12" fill="${DK}" ${stroke}/>
+<g stroke="#eeeae0" stroke-width="4" stroke-opacity=".7"><path d="M160 320h280M160 370h280M160 420h200"/></g>
+<g transform="rotate(-12 130 240)"><rect x="130" y="190" width="340" height="54" rx="8" fill="#eeeae0"/>${[0,1,2,3,4].map(i=>`<path d="M${150+i*66} 190l32 0-22 54h-32z" fill="${DK}"/>`).join('')}</g>
+<circle cx="130" cy="240" r="9" fill="${RIM}"/></svg>`,
+// 1 scanner
+`<svg viewBox="0 0 600 600"><rect x="225" y="190" width="150" height="56" rx="18" fill="#3a3f45" ${stroke}/>
+<rect x="110" y="240" width="380" height="220" rx="32" fill="#2b2f35" ${stroke}/>
+<rect x="145" y="275" width="230" height="150" rx="14" fill="#0f1114" stroke="${RIM}" stroke-width="2"/>
+<g stroke="${RIM}" stroke-width="10" stroke-linecap="round"><path d="M190 350h140"/></g><g fill="${RIM}"><circle cx="190" cy="335" r="13"/><circle cx="190" cy="365" r="13"/><circle cx="330" cy="335" r="13"/><circle cx="330" cy="365" r="13"/></g>
+<circle cx="425" cy="320" r="18" fill="#eeeae0"/><circle cx="425" cy="385" r="18" fill="#eeeae0" fill-opacity=".7"/></svg>`,
+// 2 eras
+`<svg viewBox="0 0 600 600">
+<g class="era on">${[0,1,2].map(i=>`<rect x="${90+i*140}" y="150" width="120" height="330" rx="10" fill="${DK}" ${stroke}/>${[0,1,2,3,4,5,6,7].map(r=>`<circle cx="${120+i*140}" cy="${190+r*38}" r="6" fill="${r%3==i?'#eeeae0':RIM}"/><rect x="${140+i*140}" y="${185+r*38}" width="50" height="10" rx="3" fill="#3a3f45"/>`).join('')}`).join('')}</g>
+<g class="era"><rect x="150" y="130" width="300" height="240" rx="18" fill="#2b2f35" ${stroke}/><rect x="175" y="155" width="250" height="190" rx="8" fill="#0f1114"/><path d="M195 190h90M195 215h140M195 240h70" stroke="${RIM}" stroke-width="7" stroke-linecap="round"/><rect x="265" y="370" width="70" height="36" fill="#3a3f45"/><rect x="130" y="410" width="340" height="56" rx="10" fill="#2b2f35" ${stroke}/></g>
+<g class="era"><rect x="220" y="80" width="160" height="430" rx="34" fill="${DK}" ${stroke}/><rect x="236" y="112" width="128" height="366" rx="14" fill="#0f1114"/><rect x="268" y="94" width="64" height="8" rx="4" fill="#3a3f45"/><circle cx="300" cy="260" r="42" fill="none" stroke="${RIM}" stroke-width="6"/><path d="M276 260h48M300 236v48" stroke="#eeeae0" stroke-width="6" stroke-linecap="round"/></g>
+<g class="era"><rect x="180" y="180" width="240" height="240" rx="22" fill="${DK}" ${stroke}/><rect x="225" y="225" width="150" height="150" rx="12" fill="${RIM}" fill-opacity=".3" stroke="${RIM}" stroke-width="3"/><circle cx="300" cy="300" r="32" fill="#eeeae0"/>${pins(200,150,6,38,0)}${pins(200,428,6,38,0)}${pins(150,200,6,38,1)}${pins(428,200,6,38,1)}</g></svg>`,
+// 3 exploded phone
+`<svg viewBox="0 0 600 600">${phoneParts(false)}</svg>`,
+// 4 software
+`<svg viewBox="0 0 600 600">
+<g class="mode on">${[[0,0,'#eeeae0'],[1,0,'#eeeae0'],[2,0,RIM],[0,1,RIM],[1,1,'#eeeae0'],[2,1,'#eeeae0']].map(a=>`<rect x="${110+a[0]*130}" y="${170+a[1]*130}" width="110" height="110" rx="28" fill="${a[2]}"/><circle cx="${165+a[0]*130}" cy="${225+a[1]*130}" r="22" fill="${DK}" fill-opacity=".8"/>`).join('')}</g>
+<g class="mode"><g class="flow" stroke="${RIM}" stroke-width="2.5" stroke-opacity=".7">${[[120,200],[120,300],[120,400]].map(a=>[[300,160],[300,260],[300,340],[300,440]].map(b=>`<path d="M${a[0]} ${a[1]}L${b[0]} ${b[1]}"/>`).join('')).join('')}${[[300,160],[300,260],[300,340],[300,440]].map(b=>`<path d="M${b[0]} ${b[1]}L480 300"/>`).join('')}</g>
+${[[120,200],[120,300],[120,400],[300,160],[300,260],[300,340],[300,440]].map(a=>`<circle cx="${a[0]}" cy="${a[1]}" r="20" fill="${DK}" ${stroke}/>`).join('')}<circle cx="480" cy="300" r="34" fill="#eeeae0"/></g></svg>`,
+// 5 together
+`<svg viewBox="0 0 600 600">${phoneParts(true)}</svg>`,
+// 6 questions
+`<svg viewBox="0 0 600 600"><circle cx="300" cy="300" r="190" fill="${DK}" stroke="${RIM}" stroke-width="22"/><circle cx="300" cy="300" r="150" fill="none" stroke="#eeeae0" stroke-opacity=".2" stroke-width="3"/><text x="300" y="380" text-anchor="middle" font-family="Space Grotesk,Helvetica,sans-serif" font-weight="900" font-size="260" fill="#eeeae0">?</text></svg>`
+];
+
+/* ---------- Build ---------- */
+const N=scenes.length,stage=$('#stage'),objs=$('#objs'),card=$('#card'),notes=$('#notes'),word=$('#word');
+objs.innerHTML='<svg id="ring" viewBox="0 0 100 100"><circle cx="50" cy="50" r="48" fill="none" stroke="currentColor" stroke-width=".25" stroke-dasharray="1.2 1.8"/><circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" stroke-width=".18"/><circle cx="50" cy="2" r="1.5" fill="currentColor"/></svg>';
+const ring=$('#ring');
+art.forEach((s,i)=>{const d=document.createElement('div');d.className='obj';d.id='o'+i;d.innerHTML=s;objs.appendChild(d)});
+document.querySelectorAll('#o4 .mode').forEach(g=>g.querySelectorAll('rect,circle').forEach((r,i)=>r.style.transitionDelay=i*55+'ms'));
+scenes.forEach((s,i)=>{const b=document.createElement('button');b.setAttribute('aria-label',s.label);b.onclick=()=>goTo(i);$('#dots').appendChild(b)});
+$('#tick').innerHTML='<div>'+'HARDWARE ✦ SOFTWARE ✦ APPS ✦ AI ✦ CHIPS ✦ IDEAS ✦ '.repeat(12)+'</div>';
+const pad=n=>String(n+1).padStart(2,'0');
+const chars=(t,b=0)=>{let n=b;return t.split(' ').map(w=>`<span class="w">${[...w].map(c=>`<span class="ch" style="--i:${n++}">${c}</span>`).join('')}</span>`).join(' ')};
+const words=(t,b=0)=>{let n=b;return t.split(' ').map(w=>`<span class="bw" style="--i:${n++}">${w}</span>`).join(' ')};
+/* themes: bg, text, big word, accent */
+const rgb=h=>[1,3,5].map(i=>parseInt(h.slice(i,i+2),16));
+const D=['#15171a','#eeeae0','#c8f031','#c8f031'],L=['#eeeae0','#15171a','#15171a','#5b6b00'],A=['#c8f031','#15171a','#15171a','#15171a'];
+const TH=[D,L,D,L,D,A,L].map(r=>r.map(rgb));
+const mix=(a,b,t)=>a.map((v,i)=>Math.round(v+(b[i]-v)*t));
+let fgc=[238,234,224];
+function theme(c){
+ const i=clamp(Math.floor(c),0,N-2),f=clamp(c-i),t=f*f*(3-2*f),m=k=>mix(TH[i][k],TH[i+1][k],t),s=stage.style;
+ const [bg,fg,wd,tg]=[0,1,2,3].map(m);fgc=fg;
+ s.setProperty('--bg',`rgb(${bg})`);s.setProperty('--fg',`rgb(${fg})`);s.setProperty('--word',`rgb(${wd})`);s.setProperty('--tag',`rgb(${tg})`);
+ s.setProperty('--card',`rgba(${fg},.08)`);s.setProperty('--line',`rgba(${fg},.28)`);document.body.style.background=`rgb(${bg})`;
+}
+let letters=[];
+function setWord(t){
+ if(word.dataset.t){const o=word.cloneNode(true);o.removeAttribute('id');o.classList.add('out');stage.appendChild(o);setTimeout(()=>o.remove(),1000)}
+ word.dataset.t=t;word.innerHTML=[...t].map((c,i)=>`<span class="l" style="--i:${i}">${c===' '?'&nbsp;':c}</span>`).join('');
+ letters=[...word.querySelectorAll('.l')];
+}
+function statOf(i){const s=scenes[i];return s.pills?[s.pills[state[i]][0],s.pills[state[i]][1]]:s.stat}
+function count(el){
+ const to=+el.textContent;if(!/^\d+$/.test(el.textContent)||to<1)return;const t0=performance.now();
+ (function f(t){const p=clamp((t-t0)/1100);el.textContent=Math.round(to*(1-Math.pow(1-p,4)));if(p<1)requestAnimationFrame(f)})(t0);
+}
+function applySel(i){document.querySelectorAll('#o'+i+' .'+(i==2?'era':'mode')).forEach((e,k)=>e.classList.toggle('on',k===state[i]))}
+let active=-1;
+function render(i){
+ const s=scenes[i],st=statOf(i);
+ card.innerHTML=`<div class="tag">${words(pad(i)+' · '+s.label)}</div><h1>${chars(s.h,4)}<em>${chars(s.em,s.h.length+8)}</em></h1><p class="txt">${words(s.t,12)}</p>`+
+ (s.pills?`<div class="pills">${s.pills.map((p,k)=>`<button class="pill${k===state[i]?' on':''}" style="--k:${k}" data-k="${k}" type="button">${p[0]}</button>`).join('')}</div>`:'')+
+ `<div class="stat"><b>${st[0]}</b><span>${st[1]}</span></div>`;
+ count(card.querySelector('.stat b'));
+ setWord(s.word);
+ $('#pager').textContent=pad(i)+' / '+pad(N-1)+'  ·  '+s.label;
+ [...$('#dots').children].forEach((b,k)=>b.classList.toggle('on',k===i));
+ notes.innerHTML='<small>SPEAKER NOTES</small>'+s.n;
+}
+card.addEventListener('click',e=>{
+ const b=e.target.closest('.pill');if(!b)return;
+ state[active]=+b.dataset.k;applySel(active);
+ card.querySelectorAll('.pill').forEach((p,k)=>p.classList.toggle('on',k===state[active]));
+ const st=statOf(active),S=card.querySelector('.stat');
+ S.querySelector('b').textContent=st[0];S.querySelector('span').textContent=st[1];
+ S.classList.remove('flip');void S.offsetWidth;S.classList.add('flip');
+});
+
+/* ---------- Particles ---------- */
+const cv=$('#fx'),cx=cv.getContext('2d');let W,H,P=[];
+function size(){W=cv.width=innerWidth;H=cv.height=innerHeight;P=Array.from({length:Math.min(90,Math.round(W/14))},()=>({x:Math.random()*W,y:Math.random()*H,z:Math.random()*.8+.2}))}
+size();addEventListener('resize',size);
+
+/* ---------- Loop ---------- */
+let cur=0,prev=0,mx=0,my=0,tx=0,ty=0;
+addEventListener('pointermove',e=>{tx=e.clientX/innerWidth*2-1;ty=e.clientY/innerHeight*2-1});
+const ease=x=>x*x*(3-2*x);
+function frame(t){
+ const tgt=scrollY/innerHeight;cur+=(tgt-cur)*.1;if(Math.abs(tgt-cur)<.0008)cur=tgt;
+ const vel=cur-prev;prev=cur;mx+=(tx-mx)*.06;my+=(ty-my)*.06;
+ theme(cur);
+ for(let i=0;i<N;i++){
+  const d=cur-i,a=Math.abs(d),o=clamp(1.4-a*1.8),el=document.getElementById('o'+i);
+  el.style.opacity=o;el.style.visibility=o<.01?'hidden':'visible';
+  el.style.transform=`translate3d(${-d*9}vw,${-d*6}vh,0) rotateY(${-d*40}deg) rotateX(${d*12}deg) rotateZ(${d*6}deg) scale(${1-a*.14})`;
+  if(i===3||i===5){
+   const sp=i===3?clamp(1-a*1.2):clamp(a*2.2);
+   el.style.setProperty('--lab',i===3&&sp>.8?1:0);
+   el.querySelectorAll('.part').forEach(p=>{const s=ease(clamp(sp*1.8-p.dataset.k*.08));p.style.transform=`translate(${p.dataset.dx*s}px,${p.dataset.dy*s}px) rotate(${p.dataset.r*s}deg)`});
+  }
+ }
+ objs.style.transform=`rotateY(${mx*10}deg) rotateX(${-my*8}deg)`;
+ ring.style.transform=`rotate(${cur*70+t*.004}deg) scale(${1+Math.sin(t*.001)*.025})`;
+ card.style.transform=`perspective(900px) rotateY(${mx*3}deg) rotateX(${-my*2}deg)`;
+ const amp=3+Math.min(Math.abs(vel)*500,14);
+ letters.forEach((l,i)=>l.style.translate=`0 ${Math.sin(t*.002+i*.8)*amp}px`);
+ word.style.translate=`${-mx*14-(cur-Math.round(cur))*50}px 0`;
+ $('#bar').style.transform=`scaleX(${cur/(N-1)})`;
+ cx.clearRect(0,0,W,H);cx.fillStyle=`rgba(${fgc},.4)`;
+ P.forEach(p=>{p.y-=(.15+Math.abs(vel)*70)*p.z;if(p.y<-20)p.y=H+10;cx.fillRect(p.x+Math.sin(t*.0005+p.z*9)*8,p.y,2*p.z,2*p.z+Math.abs(vel)*400*p.z)});
+ const idx=clamp(Math.round(cur),0,N-1);
+ if(idx!==active){active=idx;render(idx)}
+ $('#hint').style.opacity=cur<.3?1:0;
+ requestAnimationFrame(frame);
+}
+function goTo(i){scrollTo({top:clamp(i,0,N-1)*innerHeight,behavior:'smooth'})}
+addEventListener('keydown',e=>{
+ if(['ArrowDown','ArrowRight',' ','PageDown'].includes(e.key)){e.preventDefault();goTo(active+1)}
+ if(['ArrowUp','ArrowLeft','PageUp'].includes(e.key)){e.preventDefault();goTo(active-1)}
+ if(e.key==='n'||e.key==='N')notes.classList.toggle('show');
+});
+$('#nbtn').onclick=()=>notes.classList.toggle('show');
+$('#splash h2').innerHTML=chars('Technology');
+applySel(2);applySel(4);
+requestAnimationFrame(frame);
+setTimeout(()=>$('#splash').classList.add('go'),3100);
+setTimeout(()=>{document.body.classList.remove('lock');$('#splash').remove()},4200);
+</script>
+</body>
+</html>
